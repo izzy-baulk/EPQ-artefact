@@ -41,14 +41,17 @@ Python is a high-level, general purpose programming language with support for co
 
 ### Abstraction and Decomposition
 
-After finishing my research into Compton scattering, and confirming this phenomenon could be suitably visualised on a 3D plot, I used the processes of abstraction and decomposition to plan my program before beginning work on the code. Abstraction in programming refers to the separation of unnecessary details from the information and tasks required to solve a problem, while decomposition is the process of breaking down a problem into smaller, more simple tasks, for each an individual coded solution can be found. Abstraction first led me to decide on the following input variables, output variables, intermediate variables, and constants for my code, with variables being values used to store information under specific monikers, through which they can be defined, accessed and updated. I decided to use these specific variables as they allowed me to use equations within my code that had already been proved and verified by other physicists, reducing chances of error in my program as I did not need to do any complex algebraic manipulation. However, to make sure I understood where these equations were coming from, I wrote my own proofs separately and checked these against the known ones
+After finishing my research into Compton scattering, and confirming this phenomenon could be suitably visualised on a 3D plot, I used the processes of abstraction and decomposition to plan my program before beginning work on the code. Abstraction in programming refers to the separation of unnecessary details from the information and tasks required to solve a problem, while decomposition is the process of breaking down a problem into smaller, more simple tasks, for each an individual coded solution can be found. Abstraction first led me to decide on the following input variables, output variables, intermediate variables, and constants for my code, with variables being values used to store information under specific monikers, through which they can be defined, accessed and updated.
 
 **INPUTS** - photon energy pre-collision (*E<sub>i</sub>*), photon energy post-collision (*E<sub>r</sub>*)
+
 **INTERMEDIATES** - electron energy post collision (*E<sub>k</sub>*)
+
 **OUTPUTS**- electron recoil angle (*Φ*), photon recoil angle (*θ*), electron velocity post-collision (*V*)
+
 **CONSTANTS** - velocity of photon (*c*), electron rest energy (*E<sub>0</sub>*), electron mass (*m*)
 
-These decisions led me to decide on choosing the below equations to carry out the necessary calculations within my program:
+I decided to use these specific variables as they allowed me to use equations within my code that had already been proved and verified by other physicists, reducing chances of error in my program as I did not need to do any complex algebraic manipulation. However, to make sure I understood where these equations were coming from, I wrote my own proofs separately and checked these against the known ones. I was also able to better test my code, as I could find examples of calculations using these equations, the outputs of which I could check against the outputs of the calculations carried out within my program. The equations I ended up using were as follows:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230789096-d4bf6c2e-861d-46e5-b7db-c5dbaab77439.png"></img>
 ###### Eqn 3 - equation for electron recoil angle[^2]
@@ -188,7 +191,23 @@ This code also creates an empty object to store the the trajectory of each parti
 
 ### Modelling
 
-Now I had my plots initialised, I turned my attention to 
+Now I had my plots initialised, I turned my attention to the 'main.py' file. Within the 'main()' function, I first defined my constants, and then created input prompts for the other variables. I also defined an array to represent time, and while creating a whole separate data structure to represent time seemed at this stage unnecessary, the animation method I was using required a database of this sort to set the number of frames for the animation. 
+
+```python
+def main():
+    tf = int(input('How long should the simulation run for (in seconds)? '))
+    startx = int(input('Enter an x coordinate in the path of the incoming  photon: '))
+    starty = int(input('Enter a y coordinate in the path of the incoming  photon: '))
+    startz = int(input('Enter a z coordinate in the path of the incoming  photon: '))
+    photon_pre_energy = float(input('Enter the initial energy of the photon in MeV: ' ))
+    photon_post_energy = float(input('Enter the energy of the photon after the collision in MeV: '))
+
+    pvelocity = 3 #photon velocity (measured in 10^8m/s)
+    rest_energy_e = 0.512 #measured in MeV
+    t0 = 0 # initial time
+    dt = 1 # time step
+    time = np.arange(t0, tf, dt, dtype='float') # time array
+```
 
 Over in 'modeller.py' I wrote a propagation function which takes a length of time and the xyz velocity components of a particle as inputs, and creates an equation representing the change in position of the particle from these values, which is then differentiated to create an equation describing particle velocity. Then, for each second, the current time period is substituted into these equations to find the position and velocity of the particle at that given second in each direction in relation to the origin.
 ```python
@@ -224,7 +243,7 @@ The data frame produced is then cut down to ensure no position values are beyond
     (time >= timeEnd), axis=0)
     return(df, time)
 ```
-While creating a whole separate database to represent time seemed at this stage unnecessary, the animation method I was using required a database of this sort to set the number of frames for the animation. 
+
 
 
 ### Visualisation
