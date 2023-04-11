@@ -209,7 +209,8 @@ def main():
     time = np.arange(t0, tf, dt, dtype='float') # time array
 ```
 
-Over in 'modeller.py' I wrote a propagation function which takes a length of time and the xyz velocity components of a particle as inputs, and creates an equation representing the change in position of the particle from these values, which is then differentiated to create an equation describing particle velocity. Then, for each second, the current time period is substituted into these equations to find the position and velocity of the particle at that given second in each direction in relation to the origin.
+Over in 'modeller.py', I first began writing a single function to entirely produce the database used to model the photon pre collision. However, I later realised that part of this function could be reused during the second stage of modelling, where the electron and photon post collision are modelled. I therefore chose to split this first function into a propagation function and a sort of control function in order to make my code more efficient and eliminate duplicate code. The propagation function takes a length of time and the xyz velocity components of a particle as inputs, and creates an equation representing the change in position of the particle from these values, which is then differentiated to create an equation describing particle velocity. Then, for each second, the current time period is substituted into these equations to find the position and velocity of the particle at that given second in each direction in relation to the origin. 
+
 ```python
 def propagate(time, v0x, v0y, v0z):
     t = sp.symbols('t') # t is symbolic variable to represent time here, allows algebra to be used 
@@ -244,6 +245,24 @@ The data frame produced is then cut down to ensure no position values are beyond
     return(df, time)
 ```
 
+For modelling pre collision, I wrote the following function to take a set of coordinates found at a point along the path of the incoming photon, create a vector representing its displacement, and pass this to the propagation function. The dataframe created and shortened time array are then returned to the 'main()' function:
+
+```python
+def pre_collision(time, mag, x, y, z):
+    t = sp.symbols('t') # symbolic variable for time
+    #define xyz positions as functions of time
+    displacement_vector = get_components_pre(mag, x, y, z)
+    r0x = displacement_vector[0]
+    r0y = displacement_vector[1]
+    r0z = displacement_vector[2]
+    df, time = propagate(time, r0x, r0y, r0z)
+    return(df, time)
+```
+Back in 'main.py', as the dataframe produced by 'pre_collision()' starts with position coordinates running from the origin, I needed to reverse this dataframe so when animated, the particle would appear to move towards the origin rather than away, making sure to keep the order of the column representing time intact. The example dataframes below show this change, note the very letfmost column is the index column:
+
+<img width="569" alt="Screenshot 2023-04-11 at 22 47 14" src="https://user-images.githubusercontent.com/79797035/231295335-67b27171-f84b-4333-9cba-01defd8f634e.png">
+
+<img width="631" alt="Screenshot 2023-04-11 at 22 48 18" src="https://user-images.githubusercontent.com/79797035/231295506-ee92b11e-c880-4bdb-a3ba-a90f72ac2abd.png">
 
 
 ### Visualisation
