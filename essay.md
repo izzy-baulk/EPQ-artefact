@@ -43,7 +43,18 @@ If using the standard equatiion for velocity from kinetic energy,
 
 <img width="143" alt="Screenshot 2023-04-12 at 11 17 29" src="https://user-images.githubusercontent.com/79797035/231428681-1e629c7d-e989-4fc9-8b1a-d38866267347.png">
 
-a problem arises when calculating electron velocities at high energy levels. Because the mass of an electron is so small, 9.1x10<sup>-31</sup>kg, using this formula can lead to velocities above the speed of light being calculated, which must be disregarded as no object with mass can travel faster than the speed of light. This error arises because this formula applies to Newtonian physics, where it is assumed that absolute time and space exist outside of any observer, and so the speed of light can vary from one reference frame to another. Relativistic physics instead states that the speed of light is constant in all reference frames. As the speed of an object passes over half the speed of light, special relativity states that an object's relativistic kinetic energy will increase to infinity, even as its Newtonian kinetic energy continues to increase at a steady rate.
+a problem arises when calculating electron velocities at high energy levels. Because the mass of an electron is so small, 9.1x10<sup>-31</sup>kg, using this formula can lead to velocities above the speed of light being calculated, which must be disregarded as no object with mass can travel faster than the speed of light. This error arises because this formula applies to Newtonian physics, where it is assumed that absolute time and space exist outside of any observer, and so the speed of light can vary from one reference frame to another. Relativistic physics instead states that the speed of light is constant in all reference frames. This becomes significant as the speed of an object passes over half the speed of light, as special relativity states that an object's relativistic kinetic energy will increase to infinity, even as its Newtonian kinetic energy continues to increase at a steady rate.
+
+<img width="488" alt="Screenshot 2023-04-12 at 15 24 49" src="https://user-images.githubusercontent.com/79797035/231488369-423e50dc-360c-4e82-a2af-9d9a91516f57.png"></img>
+###### Fig 2 - graph showing how kinetic energy changes with speed[^4]
+
+Therefore, the relativistic equation for velocity must be used, which can be found from rearranging the relativistic equation for kinetic energy.
+
+<img width="189" alt="Screenshot 2023-04-12 at 15 27 48" src="https://user-images.githubusercontent.com/79797035/231489343-d9157da8-030d-4b28-8d6c-6defe5f78042.png"></img>
+
+###### Eqn 3 - relativistic equation for kinetic energy[^4]
+
+While using this equation ensures the correct electron velocity can be calculated, when working with energies in the range of MeV, the velocities calculated will still be a large fraction of the speed of light. As computers obviously cannot run simulations at a frame rate anywhere nearing the speed of light, I chose to instead create my plots with a scale of 1 unit = 10<sup>8</sup>m. The velocities of the particles could therefore be scaled down, allowing their relative magnitudes to remain accurate, but allowing the animation to run at a reasonable frame rate. 
 
 ## IV. Methodology
 
@@ -62,14 +73,14 @@ After finishing my research into Compton scattering, and confirming this phenome
 I decided to use these specific variables as they allowed me to use equations within my code that had already been proved and verified by other physicists, reducing chances of error in my program as I did not need to do any complex algebraic manipulation. However, to make sure I understood where these equations were coming from, I wrote my own proofs separately and checked these against the known ones. I was also able to better test my code, as I could find examples of calculations using these equations, the outputs of which I could check against the outputs of the calculations carried out within my program. The equations I ended up using were as follows:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230789096-d4bf6c2e-861d-46e5-b7db-c5dbaab77439.png"></img>
-###### Eqn 3 - equation for electron recoil angle[^2]
+###### Eqn 4 - equation for electron recoil angle[^2]
 
 <img width="127" alt="Screenshot 2023-04-10 at 15 18 22" src="https://user-images.githubusercontent.com/79797035/230919467-3e48056b-7941-4157-85dd-55ed9369bf3a.png"></img>
-###### Eqn 4 - equation for photon recoil angle[^2]
+###### Eqn 5 - equation for photon recoil angle[^2]
 
 <img width="232" alt="Screenshot 2023-04-12 at 11 07 18" src="https://user-images.githubusercontent.com/79797035/231426341-831696bf-4e6d-4220-af0f-9fc6d0f564a0.png">
 
-###### Eqn 5 - equation for electron velocity (rearrangement of relativistic expression for KE [^4] )
+###### Eqn 6 - equation for electron velocity (rearrangement of Eqn 3)
 
 During decomposition, after analysing another piece of code used to create 3D animations using matplotlib, I decided to use a similar structure to my program, creating a class to contain my animation and plotting objects, and data frames to store data generated by my model. I also made the choice to use some utility functions used in vector calculations and manipulation defined within this program within my own code, and copied these into a separate file from which they could be called as necessary. Doing this allowed me to save time during the early stages of the programming process, and keep track of which functions were my own work, and which had been written by others. These functions were the following[^3]
 
@@ -273,9 +284,155 @@ Back in 'main.py', as the dataframe produced by 'pre_collision()' starts with po
 
 <img width="631" alt="Screenshot 2023-04-11 at 22 48 18" src="https://user-images.githubusercontent.com/79797035/231295506-ee92b11e-c880-4bdb-a3ba-a90f72ac2abd.png">
 
-For the functions handelling modelling post collision, I first had to write functions calculating electron and photon recoil angles, as well as electron velocity from the inputted energies using the equations mentioned earlier.
+For modelling the particles post-collision, I wrote separate functions for the photon and electron. I first had to write functions which would calculate electron and photon recoil angles, as well as electron velocity from the inputted energies using the equations mentioned earlier, and then pass these values into additional functions that would calculate the components of velocity for each particle. I realised I would have to write separate functions for however many components of photon velocity were non zero. The calculated components could in turn be passed to the 'propagate()' function. 
+
+```python
+def post_collision_electron(time, pvelocity, energy_photon_pre, energy_photon_post, pcomps, rest_energy_e):
+    energy_electron_post = (energy_photon_pre - energy_photon_post) + rest_energy_e
+    evelocity = electron_velocity(energy_electron_post)
+    electron_angle = electron_recoil_angle(energy_photon_pre, energy_photon_post, rest_energy_e)
+    if (pcomps[0] == 0 and pcomps[1] == 0) or (pcomps[1] == 0 and pcomps[2] == 0) or (pcomps[0] == 0 and pcomps[2] == 0):
+        bx, by, bz = onedcomponents(pcomps, electron_angle, evelocity, 'e')
+    elif (pcomps[0] == 0) or (pcomps[1] == 0) or (pcomps[2] == 0):
+        bx, by, bz = twodcomponents(pvelocity, pcomps, electron_angle, evelocity, 'e')
+    else:
+        bx, by, bz = threedcomponents(pvelocity, pcomps, electron_angle, evelocity, 'e')
+    bcomps = [bx, by, bz]
+    calcmag(evelocity, bx, by, bz, 'electron velocity')
+    df, time = propagate(time, bx, by, bz)
+    return(df, time, bcomps, electron_angle)
+
+def post_collision_photon(time, pvelocity, energy_photon_pre, energy_photon_post, pcomps, rest_energy_e):
+    pmag = pvelocity 
+    photon_angle = photon_recoil_angle(energy_photon_pre, energy_photon_post, rest_energy_e)
+    if (pcomps[0] == 0 and pcomps[1] == 0) or (pcomps[1] == 0 and pcomps[2] == 0) or (pcomps[0] == 0 and pcomps[2] == 0):
+        bx, by, bz = onedcomponents(pcomps, photon_angle, pmag, 'p')
+    elif (pcomps[0] == 0) or (pcomps[1] == 0) or (pcomps[2] == 0):
+        bx, by, bz = twodcomponents(pmag, pcomps, photon_angle, pmag, 'p')
+    else:
+        bx, by, bz = threedcomponents(pvelocity, pcomps, photon_angle, pmag, 'p')        
+    bcomps = [bx, by, bz]
+    calcmag(pmag, bx, by, bz, 'photon velocity')
+    df, time = propagate(time, bx, by, bz)
+    return(df, time, bcomps, photon_angle)
+```
+
+I first began trying to write a function that would calculate these components with all the incoming components of photon velocity being non-zero, however soon realised it would be far easier and more logical to start with a function that required only one component to be non-zero (ie, photon only moving in one direction). This proved the easiest component function to write, as it employed only basic trigonemtry for mathematical calculations. The below function was initially split into two, one for the elctron, and one for the photon, but once these two were finished I realised I could prevent duplicate code and improve efficiency by merging the two.
+
+```python
+def onedcomponents(acomps, theta, bmag, type):
+    theta = math.radians(theta)
+    if (acomps[1] == 0 and acomps[2] == 0):
+        Bx = bmag * math.cos(theta) #adjacent component of vector
+        By = acomps[1] #zero component
+        Bz = bmag * math.sin(theta) #opposite component of vector
+        if type == 'e': #appropriate reflection in axis
+            Bz *= -1
+    elif (acomps[0] == 0 and acomps[1] == 0):
+        Bx = acomps[0] #zero component
+        Bz = bmag * math.cos(theta) #adjacent component of vector
+        By = bmag * math.sin(theta) #opposite component of vector
+        if type == 'p': #appropriate reflection in axis
+            By *= -1
+    else:
+        By = bmag * math.cos(theta) #adjacent component of vector
+        Bz = bmag * math.sin(theta) #opposite component of vector
+        Bx = acomps[2]  #zero component
+        if type == 'e': #appropriate reflection in axis
+            Bz *= -1
+            Bx *= -1
+    return Bx, By, Bz
+```
+The greatest challenge I faced was writing the next two functions where more than one component of photon velocity was non-zero, and in fact I wrote 9 different versions before I found a mathematical solution that would produce accurate outputs consistently. Most of my efforts went into finding a method using vector projections to calculate the components of the second velocity vector from the first. However, as I had limited understanding of these vector properties, I struggled to make progress. Below is one of these attempted functions:
+
+```python
+def velocity_components(acomps, amag, theta, bmag):
+    theta = math.radians(theta)
+    cosine = math.cos(theta)
+    bcomps = [bmag, 0, 0]
+    #dotprod = sum([acomps[i]*bcomps[i] for i in range(3)])
+    dotprod = amag * bmag * cosine
+    projAontoB = [dotprod/bmag**2 * bcomps[i] for i in range(3)]
+    bperp = [bcomps[i] - projAontoB[i] for i in range(3)]
+    bx, by, bz = bperp
+    print(bperp)
+    return bx, by, bz
+```
+
+I then realised that resolving the incoming velocity vector into a component parallel to an axis would help avoid use of complex vector methods. To do this, I calculated the angle between the incoming vector and x axis, and used this in conjunction with the angle between the incoming and outgoing vectors to find the angle between the outgoing vector and x axis.
+
+```python
+def velocitycomponents(acomps, theta, bmag): #worked but not with z
+    theta = math.radians((theta))
+    ax = acomps[0]
+    ay = acomps[1]
+    angle_ax = math.atan2(ay, ax)
+    angle_bx = angle_ax + theta
+    b_x = bmag * math.cos(angle_bx)
+    b_y = bmag * math.sin(angle_bx)
+    b_z = 0
+    return b_x, b_y, b_z
+```
+
+However, this function did not always produce a vector with the correct orientation on the plot. Finally, I realised that as the incoming and outgoing vectors would always be in at least one identical plane, the components of the vectors in this identical plane must be in the same ratio as the magnitudes of the vectors. As I could calculate this ratio of magnitudes, knowing the scalar velocities of the incoming and outgoing particles, I could therefore apply the same scale factor to the components of that plane, as the adjacent component and magnitude of each vector would form two similar triangles. The other component could always be calculated using basic trigonometry.
+
+``` python
+def twodcomponents(amag, acomps, theta, bmag, type):
+    theta = math.radians((theta))
+    ax = acomps[0]
+    ay = acomps[1]
+    az = acomps[2]
+    i = bmag * math.cos(theta) #adjacent component of vector triangle
+    sf = amag / i #scale factor from ratio of magnitude of a to adjacent component
+    if acomps[2] == 0:
+        bz = bmag * math.sin(theta) #opposite component of vector triangle
+        bx = ax / sf #other components calculated from scale factors
+        by = ay / sf
+        if type == 'e':
+            bz *= -1
+    elif acomps[1] == 0:
+        by = bmag * math.sin(theta) #opposite component of vector triangle
+        bz = az /sf #other components calculated from scale factors
+        bx = ax /sf
+        if type == 'e':
+            by *= -1
+    else:
+        bx = bmag * math.sin(theta) #opposite component of vector triangle
+        by = ay / sf #other components calculated from scale factors
+        bz = az / sf
+        if type == 'e':
+            bx *= -1
+    return bx, by, bz 
+```
+The only major difference between this function and the one calculating vector components where all incoming velocity components were non-zero was that the adjacent component had to be calculated for both vectors before the scale factor, and I therefore had to use the angle between the chosen axis and outgoing vector.
+
+```python
+def threedcomponents(amag, acomps, theta, bmag, type):
+    theta = math.radians(theta)
+    ax = acomps[0]
+    ay = acomps[1]
+    az = acomps[2]
+    xangle = math.asin(az / amag) #angle between xy plane and magnitude
+    ifirst = amag * math.cos(xangle) #adjacent component of first vector triangle
+    if type == 'e':
+        theta = theta - xangle
+    else:
+        theta = theta + xangle
+    isecond = bmag * math.cos(theta) #adjacent component of second vector triangle
+    sf = ifirst / isecond #scale factor from adjacent components of each vector
+    bz = bmag * math.sin(theta)
+    if type == 'e':
+        bz *= -1
+    bx = ax / sf #scale down component by sf
+    by = ay / sf #scale down component by sf
+    return bx, by, bz
+```
+
+
 
 ### Visualisation
+
+### Testing
 
 ## V. Skill Development
 
