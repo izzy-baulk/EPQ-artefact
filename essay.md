@@ -18,20 +18,20 @@ I chose to write a Python program to give me an opportunity to develop my skills
 
 ### Compton Scattering
 
-The Compton scattering effect describes the interaction that takes place between a photon of energy between 30keV-30MeV, and a free, stationary electron, where eV is energy measured in electronvolts. One electron volt is the energy gained by an electron when accelerated through a potential difference of 1 volt. When these particles collide, the photon imparts some momentum to the electron, causing a change in direction and wavelength of the photon, and a change in the velocity of the electron. The illustration below shows this process, with *λ* representing the incoming photon, *λ’* representing the photon after the collision, *θ* representing photon scattering angle, *Φ* representing electron scattering angle, and *e-* representing the scattered electron[^1]
+The Compton scattering effect describes the interaction that takes place between a photon of energy between 30keV-30MeV, and a free, stationary electron, where eV is energy measured in electronvolts. One electron volt is the energy gained by an electron when accelerated through a potential difference of 1 volt[^1]. When these particles collide, the photon imparts some momentum to the electron, causing a change in direction and wavelength of the photon, and a change in the velocity of the electron. The illustration below shows this process, with *λ* representing the incoming photon, *λ’* representing the photon after the collision, *θ* representing photon scattering angle, *Φ* representing electron scattering angle, and *e-* representing the scattered electron[^2]
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788567-631402ac-8141-4fac-afb9-6591555b3d1c.png"></img>
-###### Fig 1 - illustration of a collision involving compton scattering [^1]
+###### Fig 1 - illustration of a collision involving compton scattering [^2]
 
 The standard equation for Compton scattering, relating photon wavelength pre and post collision, electron rest energy, and photon scattering angle, was established by Arthur Compton and won him the Nobel Prize in 1927, and is shown below: 
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788650-39f581dd-9a25-4b5d-a908-34eaa4a7b1bc.png"></img>
-###### Eqn 1 - equation for compton effect using photon energies[^2]
+###### Eqn 1 - equation for compton effect using photon energies[^3]
 
 Using E<sub>o</sub> = m<sub>e</sub>c<sup>2</sup>, where E<sub>o</sub> represents the rest energy of an electron, this equation can be rearranged to give:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788799-60cd5759-049a-4616-96c5-0ce35c455c70.png"></img>
-###### Eqn 2 -  equation for compton effect using electron rest energy[^2]
+###### Eqn 2 -  equation for compton effect using electron rest energy[^3]
 
 ### Python and Additional Libraries
 
@@ -46,13 +46,13 @@ If using the standard equatiion for velocity from kinetic energy,
 a problem arises when calculating electron velocities at high energy levels. Because the mass of an electron is so small, 9.1x10<sup>-31</sup>kg, using this formula can lead to velocities above the speed of light being calculated, which must be disregarded as no object with mass can travel faster than the speed of light. This error arises because this formula applies to Newtonian physics, where it is assumed that absolute time and space exist outside of any observer, and so the speed of light can vary from one reference frame to another. Relativistic physics instead states that the speed of light is constant in all reference frames. This becomes significant as the speed of an object passes over half the speed of light, as special relativity states that an object's relativistic kinetic energy will increase to infinity, even as its Newtonian kinetic energy continues to increase at a steady rate.
 
 <img width="488" alt="Screenshot 2023-04-12 at 15 24 49" src="https://user-images.githubusercontent.com/79797035/231488369-423e50dc-360c-4e82-a2af-9d9a91516f57.png"></img>
-###### Fig 2 - graph showing how kinetic energy changes with speed[^3]
+###### Fig 2 - graph showing how kinetic energy changes with speed[^4]
 
 Therefore, the relativistic equation for velocity must be used, which can be found from rearranging the relativistic equation for kinetic energy.
 
 <img width="189" alt="Screenshot 2023-04-12 at 15 27 48" src="https://user-images.githubusercontent.com/79797035/231489343-d9157da8-030d-4b28-8d6c-6defe5f78042.png"></img>
 
-###### Eqn 3 - relativistic equation for kinetic energy[^3]
+###### Eqn 3 - relativistic equation for kinetic energy[^4]
 
 While using this equation ensures the correct electron velocity can be calculated, when working with energies in the range of MeV, the velocities calculated will still be a large fraction of the speed of light. As computers obviously cannot run simulations at a frame rate anywhere nearing the speed of light, I chose to instead create my plots with a scale of 1 unit = 10<sup>8</sup>m. The velocities of the particles could therefore be scaled down, allowing their relative magnitudes to remain accurate, but allowing the animation to run at a reasonable frame rate. 
 
@@ -73,16 +73,16 @@ After finishing my research into Compton scattering, and confirming this phenome
 I decided to use these specific variables as they allowed me to use equations within my code that had already been proved and verified by other physicists, reducing chances of error in my program as I did not need to do any complex algebraic manipulation. However, to make sure I understood where these equations were coming from, I wrote my own proofs separately and checked these against the known ones. I was also able to better test my code, as I could find examples of calculations using these equations, the outputs of which I could check against the outputs of the calculations carried out within my program. The equations I ended up using were as follows:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230789096-d4bf6c2e-861d-46e5-b7db-c5dbaab77439.png"></img>
-###### Eqn 4 - equation for electron recoil angle[^2]
+###### Eqn 4 - equation for electron recoil angle[^3]
 
 <img width="127" alt="Screenshot 2023-04-10 at 15 18 22" src="https://user-images.githubusercontent.com/79797035/230919467-3e48056b-7941-4157-85dd-55ed9369bf3a.png"></img>
-###### Eqn 5 - equation for photon recoil angle[^2]
+###### Eqn 5 - equation for photon recoil angle[^3]
 
 <img width="232" alt="Screenshot 2023-04-12 at 11 07 18" src="https://user-images.githubusercontent.com/79797035/231426341-831696bf-4e6d-4220-af0f-9fc6d0f564a0.png">
 
 ###### Eqn 6 - equation for electron velocity (rearrangement of Eqn 3)
 
-During decomposition, after analysing another piece of code used to create 3D animations using matplotlib, I decided to use a similar structure to my program, creating a class to contain my animation and plotting objects, and data frames to store data generated by my model. I also made the choice to use some utility functions used in vector calculations and manipulation defined within this program within my own code, and copied these into a separate file from which they could be called as necessary. Doing this allowed me to save time during the early stages of the programming process, and keep track of which functions were my own work, and which had been written by others. These functions were the following[^4]
+During decomposition, after analysing another piece of code used to create 3D animations using matplotlib, I decided to use a similar structure to my program, creating a class to contain my animation and plotting objects, and data frames to store data generated by my model. I also made the choice to use some utility functions used in vector calculations and manipulation defined within this program within my own code, and copied these into a separate file from which they could be called as necessary. Doing this allowed me to save time during the early stages of the programming process, and keep track of which functions were my own work, and which had been written by others. These functions were the following[^5]
 
 ```python
 def vector_derivative(vector, wrt):
@@ -111,7 +111,7 @@ Classes in Python are complex data structures used to create instances of object
 
 ### Initialisation
 
-The first step I took was to create the plots in which the data generated by my model would be outputted. I decided to work with a three-dimensional plot to make my model different to others that I researched before beginning this project, which work in two dimensions. I also here made the decision to use the ```FuncAnimation``` subclass of matplotlib[^5] to create the actual animation, as it required parameters that would be simple to create:
+The first step I took was to create the plots in which the data generated by my model would be outputted. I decided to work with a three-dimensional plot to make my model different to others that I researched before beginning this project, which work in two dimensions. I also here made the decision to use the ```FuncAnimation``` subclass of matplotlib[^6] to create the actual animation, as it required parameters that would be simple to create:
 
 - ```fig``` - the figure on which the plot would be created
 - ```func``` - the function to call at each frame
@@ -122,7 +122,7 @@ The first step I took was to create the plots in which the data generated by my 
 - ```blit``` - whether previous 'background' pixels should be overwritten
 
 
-Working in the ‘lab frame’, where the electron with which the photon collides is centred in the plot in which the animation is created, I defined an ```Animator``` class and wrote functions in ```visualiser.py``` to create the animation plot. ```GridSpec``` is a method used to create a layout to which subplots can be added, here as I knew I would have three subplots alongside the main figure, I created a 3x3 grid.[^6]
+Working in the ‘lab frame’, where the electron with which the photon collides is centred in the plot in which the animation is created, I defined an ```Animator``` class and wrote functions in ```visualiser.py``` to create the animation plot. ```GridSpec``` is a method used to create a layout to which subplots can be added, here as I knew I would have three subplots alongside the main figure, I created a 3x3 grid.[^7]
 
 ```python
 class Animator:
@@ -300,7 +300,36 @@ Back in ```main.py```, as the dataframe produced by ```pre_collision()``` starts
 
 <img width="631" alt="Screenshot 2023-04-11 at 22 48 18" src="https://user-images.githubusercontent.com/79797035/231295506-ee92b11e-c880-4bdb-a3ba-a90f72ac2abd.png">
 
-For modelling the particles post-collision, I wrote separate functions for the photon and electron. I first had to write functions which would calculate electron and photon recoil angles, as well as electron velocity from the inputted energies using the equations mentioned earlier, and then pass these values into additional functions that would calculate the components of velocity for each particle. I realised I would have to write separate functions for however many components of photon velocity were non zero. The calculated components could in turn be passed to the ```propagate()``` function. 
+For modelling the particles post-collision, I wrote separate functions for the photon and electron. I first had to write functions which would calculate electron and photon recoil angles, as well as electron velocity from the inputted energies using the equations mentioned earlier, and then pass these values into additional functions that would calculate the components of velocity for each particle.
+
+```python
+def electron_velocity(energy):
+    #calculate velocity of electron using relativistic formula
+    mass = 9.1*(10**-31)
+    energy = energy * 1.60218e-13 #convert MeV to J
+    c = constants.c
+    denom = (energy/(mass*(c**2))) + 1
+    root = 1 - (1/denom)**2
+    velocity = c * root
+    velocity = velocity / (10**8)
+    return velocity
+
+def electron_recoil_angle(energy_photon_pre, energy_photon_post, rest_energy_e):
+    #equation for electron recoil angle, split into steps to make computation easier
+    changein = energy_photon_pre - energy_photon_post 
+    tanthetaelectron = (rest_energy_e / (energy_photon_pre + rest_energy_e)) * math.sqrt(((2*energy_photon_pre*energy_photon_post)-(rest_energy_e*changein))/(rest_energy_e*changein))
+    thetaelectron = math.degrees(math.atan(tanthetaelectron)) #so this is electron recoil angle
+    return(180 - thetaelectron) #we want angle between incoming photon and electron, so the obtuse one
+
+def photon_recoil_angle(energy_photon_pre, energy_photon_post, rest_energy_e):
+    #equation for photon recoil angle, split into steps to make computation easier
+    changein = energy_photon_pre - energy_photon_post 
+    costheta = 1 - ((rest_energy_e*changein)/(energy_photon_pre*energy_photon_post))
+    thetaphoton = math.degrees(math.acos(costheta))
+    return(180 - thetaphoton) #we want angle between incoming photon and outgoing photon, so the obtuse one
+```
+
+I realised I would have to write separate functions for however many components of photon velocity were non zero. The calculated components could in turn be passed to the ```propagate()``` function. 
 
 ```python
 def post_collision_electron(time, pvelocity, energy_photon_pre, energy_photon_post, pcomps, rest_energy_e):
@@ -524,9 +553,56 @@ Finally, an instance of the ```Animator``` class could be created, and the three
         self.rvtp2.set_data(time_stepp, self.simulation_results3['r_mag'][:i]) # magnitude of velocity vs time
         self.vvtp2.set_data(time_stepp, self.simulation_results3['v_mag'][:i]) # magnitude of velocity vs time
 ```
-At this point, my code was fully functional.
+
+Back in ```main.py```, I called the ```.animate()``` method and outputted the plots. 
+
+```python
+    #create and run animation, show plots
+    animator = Animator(simulation_results1=electron, simulation_results2=incomingphoton, simulation_results3=outgoingphoton)
+    anim = animator.animate(timearray, electron_angle, photon_angle)
+    plt.show()
+```
 
 ### Testing
+
+At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote the following function to take the expected particle velocity, and components of the actual particle velocity as inputs, calculate the magnitude of the actual particle velocity, and compare the two:
+
+```python
+def calcmag(expected, comp1, comp2, comp3, name):
+    actual = math.sqrt(comp1**2 + comp2**2 + comp3**2)
+    print('expected magnitude of {} is {}'.format(name, round(expected, 3)))
+    print('actual magnitude of {} is {}\n'.format(name, round(actual, 3)))
+```
+
+I then called this at the end of ```post_collision_photon()``` and  ```post_collision_photon()```, giving an output such as the one below to the console:
+
+```
+expected magnitude of photon velocity is 3
+actual magnitude of photon velocity is 3.0
+
+expected magnitude of electron velocity is 2.319
+actual magnitude of electron velocity is 2.319
+```
+
+In ```main.py```, I wrote a function using vector doct product to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```.
+
+```python
+def angle_checker(postcomps, precomps, expected, name):
+    dot_prod = postcomps[0]*precomps[0] + postcomps[1]*precomps[1] + postcomps[2]*precomps[2]
+    magpre = vector_magnitude(precomps)
+    magpost = vector_magnitude(postcomps)
+    cosine = dot_prod / (magpre * magpost) 
+    theta = math.acos(cosine)
+    theta = math.degrees(theta)
+    print('expected angle between {} and incoming photon is {} degrees'.format(name, round(expected, 3)))
+    print('actual angle between {} and incoming photon is {} degrees\n'.format(name, round(theta, 3)))  
+```
+The flowchart below shows the entire program flow of the project:
+
+<img width="1097" alt="Screenshot 2023-04-14 at 15 05 14" src="https://user-images.githubusercontent.com/79797035/232069943-556100f6-b308-4a20-86eb-b03738228736.png">
+<img width="785" alt="Screenshot 2023-04-14 at 15 05 35" src="https://user-images.githubusercontent.com/79797035/232069960-b6f83e2a-3a60-4735-bb2f-2f4aefb41222.png">
+
+
 
 ## V. Skill Development
 
@@ -547,17 +623,19 @@ By far, the most challenging part of the programming element of the project was 
 
 Another completely new skill I had to learn was the use of the sympy library, which is used to create variables that can be used in algebraic functions. I first read the accompanying article to the code I analysed at the beginning of my project to understand its use, and then began drafting a solution for this part of the program without using this library. However, I then realised I would not be able to derive an equation for velocity from the equation for position any where near as efficiently as with the use of this library, so decided to use sympy after all. 
 
-[^1]: D’Alessandris, P. (2017). 4.2: Compton Scattering. [online] Physics LibreTexts. Available at: https://phys.libretexts.org/Bookshelves/Modern_Physics/Book%3A_Spiral_Modern_Physics_(D%27Alessandris)/4%3A_The_Photon/4.2%3A_Compton_Scattering [Accessed 26 Mar. 2023].
+[^1]: Brittanica, The Editors of Encyclopaedia (2022). Electron volt | unit of measurement. [online] Encyclopedia Britannica. Available at: https://www.britannica.com/science/electron-volt [Accessed 14 Apr. 2023].
+‌
+[^2]: D’Alessandris, P. (2017). 4.2: Compton Scattering. [online] Physics LibreTexts. Available at: https://phys.libretexts.org/Bookshelves/Modern_Physics/Book%3A_Spiral_Modern_Physics_(D%27Alessandris)/4%3A_The_Photon/4.2%3A_Compton_Scattering [Accessed 26 Mar. 2023].
 
-[^2]: Parker, N. (2020). Massive Meets Massless: Compton Scattering Revisited | Physics Forums. [online] Physics Forums Insights. Available at: https://www.physicsforums.com/insights/massive-meets-massless-compton-scattering-revisited/ [Accessed 26 Mar. 2023].
+[^3]: Parker, N. (2020). Massive Meets Massless: Compton Scattering Revisited | Physics Forums. [online] Physics Forums Insights. Available at: https://www.physicsforums.com/insights/massive-meets-massless-compton-scattering-revisited/ [Accessed 26 Mar. 2023].
 
-[^3]: Physics LibreTexts. (2020). 27.3: Relativistic Quantities. [online] Available at: https://phys.libretexts.org/Bookshelves/University_Physics/Book%3A_Physics_(Boundless)/27%3A__Special_Relativity/27.3%3A_Relativistic_Quantities [Accessed 12 Apr. 2023].
+[^4]: Physics LibreTexts. (2020). 27.3: Relativistic Quantities. [online] Available at: https://phys.libretexts.org/Bookshelves/University_Physics/Book%3A_Physics_(Boundless)/27%3A__Special_Relativity/27.3%3A_Relativistic_Quantities [Accessed 12 Apr. 2023].
 
-[^4]: Davies, A. (2022). kinematics_visualisaion.py (Commit 18da47a)[Source code]. Available at: https://github.com/ad-1/3DKinematicsVisualisation/blob/master/kinematics_visualisaion.py
+[^5]: Davies, A. (2022). kinematics_visualisaion.py (Commit 18da47a)[Source code]. Available at: https://github.com/ad-1/3DKinematicsVisualisation/blob/master/kinematics_visualisaion.py
 
-[^5]: matplotlib.org. (n.d.). matplotlib.animation.FuncAnimation — Matplotlib 3.7.1 documentation. [online] Available at: https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.FuncAnimation.html [Accessed 13 Apr. 2023].
+[^6]: matplotlib.org. (n.d.). matplotlib.animation.FuncAnimation — Matplotlib 3.7.1 documentation. [online] Available at: https://matplotlib.org/stable/api/_as_gen/matplotlib.animation.FuncAnimation.html [Accessed 13 Apr. 2023].
 
-[^6]: matplotlib.org. (n.d.). matplotlib.gridspec.GridSpec — Matplotlib 3.7.1 documentation. [online] Available at: https://matplotlib.org/stable/api/_as_gen/matplotlib.gridspec.GridSpec.html [Accessed 13 Apr. 2023].
+[^7]: matplotlib.org. (n.d.). matplotlib.gridspec.GridSpec — Matplotlib 3.7.1 documentation. [online] Available at: https://matplotlib.org/stable/api/_as_gen/matplotlib.gridspec.GridSpec.html [Accessed 13 Apr. 2023].
 
 ‌
 
