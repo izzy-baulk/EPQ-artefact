@@ -602,8 +602,6 @@ The flowchart below shows the entire program flow of the project:
 <img width="1097" alt="Screenshot 2023-04-14 at 15 05 14" src="https://user-images.githubusercontent.com/79797035/232069943-556100f6-b308-4a20-86eb-b03738228736.png">
 <img width="785" alt="Screenshot 2023-04-14 at 15 05 35" src="https://user-images.githubusercontent.com/79797035/232069960-b6f83e2a-3a60-4735-bb2f-2f4aefb41222.png">
 
-
-
 ## V. Skill Development
 
 ### Theoretical and Scientific
