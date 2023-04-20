@@ -23,15 +23,20 @@ The Compton scattering effect describes the interaction that takes place between
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788567-631402ac-8141-4fac-afb9-6591555b3d1c.png"></img>
 ###### Fig 1 - illustration of a collision involving compton scattering [^2]
 
-The standard equation for Compton scattering, relating photon wavelength pre and post collision, electron rest energy, and photon scattering angle, was established by Arthur Compton and won him the Nobel Prize in 1927, and is shown below: 
+The standard equation for Compton scattering, relating photon wavelength pre and post collision, electron rest energy, and photon scattering angle, was established by Arthur Compton and won him the Nobel Prize in 1927, and is shown below. *h* is the Planck constant, *c* is the speed of light, *m* is electron mass: 
+
+<img width="211" alt="Screenshot 2023-04-20 at 09 38 51" src="https://user-images.githubusercontent.com/79797035/233309865-8a2b25cd-1e07-4d70-9d08-bf58d6ccff7f.png"></img>
+###### Eqn 1 - equation for compton effect using photon wavelengths[^2]
+
+Using the relationship *λ = hc/E*, this equation can be rearranged to give:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788650-39f581dd-9a25-4b5d-a908-34eaa4a7b1bc.png"></img>
-###### Eqn 1 - equation for compton effect using photon energies[^3]
+###### Eqn 2 - equation for compton effect using photon energies[^3]
 
 Using E<sub>o</sub> = m<sub>e</sub>c<sup>2</sup>, where E<sub>o</sub> represents the rest energy of an electron, this equation can be rearranged to give:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788799-60cd5759-049a-4616-96c5-0ce35c455c70.png"></img>
-###### Eqn 2 -  equation for compton effect using electron rest energy[^3]
+###### Eqn 3 -  equation for compton effect using electron rest energy[^3]
 
 ### Python and Additional Libraries
 
@@ -43,7 +48,7 @@ If using the standard equatiion for velocity from kinetic energy,
 
 <img width="143" alt="Screenshot 2023-04-12 at 11 17 29" src="https://user-images.githubusercontent.com/79797035/231428681-1e629c7d-e989-4fc9-8b1a-d38866267347.png">
 
-a problem arises when calculating electron velocities at high energy levels. Because the mass of an electron is so small, 9.1x10<sup>-31</sup>kg, using this formula can lead to velocities above the speed of light being calculated, which must be disregarded as no object with mass can travel faster than the speed of light. This error arises because this formula applies to Newtonian physics, where it is assumed that absolute time and space exist outside of any observer, and so the speed of light can vary from one reference frame to another. Relativistic physics instead states that the speed of light is constant in all reference frames. This becomes significant as the speed of an object passes over half the speed of light, as special relativity states that an object's relativistic kinetic energy will increase to infinity, even as its Newtonian kinetic energy continues to increase at a steady rate.
+a problem arises when calculating electron velocities at high energy levels. Because the mass of an electron is so small, 9.1x10<sup>-31</sup>kg, using this formula can lead to velocities above the speed of light being calculated, which must be disregarded as no object with mass can travel faster than the speed of light. This error arises because this formula applies to classical mechanics, where it is assumed that absolute time and space exist outside of any observer, and so the speed of light can vary from one reference frame to another. Relativistic mechanics instead states that the speed of light is constant in all reference frames. This becomes significant as the speed of an object passes over half the speed of light, as special relativity states that an object's relativistic kinetic energy will increase to infinity, even as its Newtonian kinetic energy continues to increase at a steady rate.
 
 <img width="488" alt="Screenshot 2023-04-12 at 15 24 49" src="https://user-images.githubusercontent.com/79797035/231488369-423e50dc-360c-4e82-a2af-9d9a91516f57.png"></img>
 ###### Fig 2 - graph showing how kinetic energy changes with speed[^4]
@@ -52,9 +57,11 @@ Therefore, the relativistic equation for velocity must be used, which can be fou
 
 <img width="189" alt="Screenshot 2023-04-12 at 15 27 48" src="https://user-images.githubusercontent.com/79797035/231489343-d9157da8-030d-4b28-8d6c-6defe5f78042.png"></img>
 
-###### Eqn 3 - relativistic equation for kinetic energy[^4]
+<img width="232" alt="Screenshot 2023-04-12 at 11 07 18" src="https://user-images.githubusercontent.com/79797035/231426341-831696bf-4e6d-4220-af0f-9fc6d0f564a0.png"></img>
 
-While using this equation ensures the correct electron velocity can be calculated, when working with energies in the range of MeV, the velocities calculated will still be a large fraction of the speed of light. As computers obviously cannot run simulations at a frame rate anywhere nearing the speed of light, I chose to instead create my plots with a scale of 1 unit = 10<sup>8</sup>m. The velocities of the particles could therefore be scaled down, allowing their relative magnitudes to remain accurate, but allowing the animation to run at a reasonable frame rate. 
+###### Eqn 4 - relativistic equation for kinetic energy[^4]
+
+While using this equation ensures the correct electron velocity can be calculated, when working with energies in the range of MeV, the velocities calculated will still be a large fraction of the speed of light. As computers cannot run simulations at a frame rate anywhere nearing the speed of light, I chose to instead create my plots with a scale of 1 unit = 10<sup>8</sup>m. The velocities of the particles could therefore be scaled down, allowing their relative magnitudes to remain accurate, but allowing the animation to run at a reasonable frame rate. 
 
 ## IV. Methodology
 
@@ -73,16 +80,12 @@ After finishing my research into Compton scattering, and confirming this phenome
 I decided to use these specific variables as they allowed me to use equations within my code that had already been proved and verified by other physicists, reducing chances of error in my program as I did not need to do any complex algebraic manipulation. However, to make sure I understood where these equations were coming from, I wrote my own proofs separately and checked these against the known ones. I was also able to better test my code, as I could find examples of calculations using these equations, the outputs of which I could check against the outputs of the calculations carried out within my program. The equations I ended up using were as follows:
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230789096-d4bf6c2e-861d-46e5-b7db-c5dbaab77439.png"></img>
-###### Eqn 4 - equation for electron recoil angle[^3]
+###### Eqn 5 - equation for electron recoil angle[^3]
 
 <img width="127" alt="Screenshot 2023-04-10 at 15 18 22" src="https://user-images.githubusercontent.com/79797035/230919467-3e48056b-7941-4157-85dd-55ed9369bf3a.png"></img>
-###### Eqn 5 - equation for photon recoil angle[^3]
+###### Eqn 6 - equation for photon recoil angle[^3]
 
-<img width="232" alt="Screenshot 2023-04-12 at 11 07 18" src="https://user-images.githubusercontent.com/79797035/231426341-831696bf-4e6d-4220-af0f-9fc6d0f564a0.png">
-
-###### Eqn 6 - equation for electron velocity (rearrangement of Eqn 3)
-
-During decomposition, after analysing another piece of code used to create 3D animations using matplotlib, I decided to use a similar structure to my program, creating a class to contain my animation and plotting objects, and data frames to store data generated by my model. I also made the choice to use some utility functions used in vector calculations and manipulation defined within this program within my own code, and copied these into a separate file from which they could be called as necessary. Doing this allowed me to save time during the early stages of the programming process, and keep track of which functions were my own work, and which had been written by others. These functions were the following[^5]
+During decomposition, after analysing another piece of code used to create 3D animations using matplotlib, I decided to use a similar structure to my program, creating a class to contain my animation and plotting objects, and data frames to store data generated by my model. Classes in Python are complex data structures used to create instances of objects, and perform operations on these objects. I also made the choice to use some utility functions used in vector calculations and manipulation defined within this program within my own code, and copied these into a separate file from which they could be called as necessary. Doing this allowed me to save time during the early stages of the programming process, and keep track of which functions were my own work, and which had been written by others. These functions were the following[^5]
 
 ```python
 def vector_derivative(vector, wrt):
@@ -104,7 +107,7 @@ def get_limits1(self, params, axis):
             lower_lim = m
     return lower_lim - 0.05, upper_lim + 0.05
 ```    
-Classes in Python are complex data structures used to create instances of objects, and perform operations on these objects. However instead of using one file to hold my entire project, I chose to split my project into three separate Python files, one to contain the visualisation code, one to contain the modelling code, and one to act a control program to run the two and pass information between them. This led me to the creation of the following flowchart to plan my project:
+However instead of using one file to hold my entire project, I chose to split my project into three separate Python files, one to contain the visualisation code, one to contain the modelling code, and one to act a control program to run the two and pass information between them. This led me to the creation of the following flowchart to plan my project:
 
 ![image](https://user-images.githubusercontent.com/79797035/230920731-48912f20-61ed-485c-b46d-25d0ec687bba.png)
 
