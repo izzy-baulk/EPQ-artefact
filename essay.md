@@ -59,7 +59,7 @@ Therefore, the relativistic equation for velocity must be used, which can be fou
 
 <img width="232" alt="Screenshot 2023-04-12 at 11 07 18" src="https://user-images.githubusercontent.com/79797035/231426341-831696bf-4e6d-4220-af0f-9fc6d0f564a0.png"></img>
 
-###### Eqn 4 - relativistic equation for kinetic energy[^4]
+###### Eqn 4 - relativistic equation for velocity [^4]
 
 While using this equation ensures the correct electron velocity can be calculated, when working with energies in the range of MeV, the velocities calculated will still be a large fraction of the speed of light. As computers cannot run simulations at a frame rate anywhere nearing the speed of light, I chose to instead create my plots with a scale of 1 unit = 10<sup>8</sup>m. The velocities of the particles could therefore be scaled down, allowing their relative magnitudes to remain accurate, but allowing the animation to run at a reasonable frame rate. 
 
@@ -469,24 +469,14 @@ Back in ```main.py```, I called the ```.animate()``` method and outputted the pl
 ```
 
 ### Testing
-
-At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote the following function to take the expected particle velocity, and components of the actual particle velocity as inputs, calculate the magnitude of the actual particle velocity, and compare the two:
+#### Accuracy
+At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote the following function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph.
 
 ```python
 def calcmag(expected, comp1, comp2, comp3, name):
     actual = math.sqrt(comp1**2 + comp2**2 + comp3**2)
     print('expected magnitude of {} is {}'.format(name, round(expected, 3)))
     print('actual magnitude of {} is {}\n'.format(name, round(actual, 3)))
-```
-
-I then called this at the end of ```post_collision_photon()``` and  ```post_collision_photon()```, giving an output such as the one below to the console:
-
-```
-expected magnitude of photon velocity is 3
-actual magnitude of photon velocity is 3.0
-
-expected magnitude of electron velocity is 2.319
-actual magnitude of electron velocity is 2.319
 ```
 
 In ```main.py```, I wrote a function using vector doct product to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```.
@@ -506,6 +496,12 @@ The flowchart below shows the entire program flow of the project:
 
 <img width="1097" alt="Screenshot 2023-04-14 at 15 05 14" src="https://user-images.githubusercontent.com/79797035/232069943-556100f6-b308-4a20-86eb-b03738228736.png">
 <img width="785" alt="Screenshot 2023-04-14 at 15 05 35" src="https://user-images.githubusercontent.com/79797035/232069960-b6f83e2a-3a60-4735-bb2f-2f4aefb41222.png">
+
+#### Usefulness
+
+To test the extent to which my program aided in a teaching scenario, I arranged to lead a physics enrichment session at school where I taught Year 12 students about the Compton scattering effect using my program. I then got feedback using a survey I distributed at the end of the session, the results of which were the following:
+
+
 
 ## V. Skill Development
 
