@@ -468,7 +468,12 @@ Back in ```main.py```, I called the ```.animate()``` method and outputted the pl
     plt.show()
 ```
 
-### Testing
+The flowchart below shows the entire program flow of the project:
+
+<img width="1097" alt="Screenshot 2023-04-14 at 15 05 14" src="https://user-images.githubusercontent.com/79797035/232069943-556100f6-b308-4a20-86eb-b03738228736.png">
+<img width="785" alt="Screenshot 2023-04-14 at 15 05 35" src="https://user-images.githubusercontent.com/79797035/232069960-b6f83e2a-3a60-4735-bb2f-2f4aefb41222.png">
+
+### Testing and Feedback
 #### Accuracy
 At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote the following function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph.
 
@@ -492,16 +497,12 @@ def angle_checker(postcomps, precomps, expected, name):
     print('expected angle between {} and incoming photon is {} degrees'.format(name, round(expected, 3)))
     print('actual angle between {} and incoming photon is {} degrees\n'.format(name, round(theta, 3)))  
 ```
-The flowchart below shows the entire program flow of the project:
-
-<img width="1097" alt="Screenshot 2023-04-14 at 15 05 14" src="https://user-images.githubusercontent.com/79797035/232069943-556100f6-b308-4a20-86eb-b03738228736.png">
-<img width="785" alt="Screenshot 2023-04-14 at 15 05 35" src="https://user-images.githubusercontent.com/79797035/232069960-b6f83e2a-3a60-4735-bb2f-2f4aefb41222.png">
 
 #### Usefulness
 
 To test the extent to which my program aided in a teaching scenario, I arranged to lead a physics enrichment session at school where I taught Year 12 students about the Compton scattering effect using my program. I then got feedback using a survey I distributed at the end of the session, the results of which were the following:
 
-
+put in implemented feedback within code
 
 ## V. Skill Development
 
