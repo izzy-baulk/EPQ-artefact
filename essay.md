@@ -345,6 +345,8 @@ Another completely new skill I had to learn was the use of the sympy library, wh
 
 <a name='selection'>**Selection.**</a> A statement that tests one or more conditions and executes instructions based on which are true.
 
+<a name='source code'>**Source code.**</a> Programming statements written in a human-readable way, formatted to be easily understood by other programmers.
+
 <a name='variable'>**Variable.**</a> A name used to reference an object.
 
 ‌
