@@ -281,7 +281,7 @@ After this session I also recieved student feedback on user-percieved benefits a
 
 Feedback from a computer science teacher reccomended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable.
 
-The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the 'auto-py-to-exe' library to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is built on, PyInstaller use the [command line](#commandline) to achieve the same aim. As I had more than 10 dependencies to include within the final executable file, the prompts I would need to write using the command line would be very long, and so prone to errors. I did encounter a significant challemge her
+The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the 'auto-py-to-exe' library to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is built on, PyInstaller use the [command line](#commandline) to achieve the same aim. As I had more than 10 dependencies to include within the final executable file, the prompts I would need to write using the command line would be very long, and so prone to errors. I did encounter a significant challenge here in that because I was writing and [compiling](#compile) my code on a computer with a UNIX based [operating system](#os), I could only compile a file that could be executed on other UNIX systems, and so not Windows machines. The only solution to this issue was to transfer my [source code](#source code) to a Windows machine at school and compile an executable file from there. This eventually meant I could hand in two versions of my program, one for each major operating system, meaning the vast majority of users would be able to use my program. 
 
 I also decided at this point to create a custom GUI where a user could input the necessary data for the ximulation to work, and choose whether to save the animation generated.
 
@@ -313,7 +313,9 @@ Another completely new skill I had to learn was the use of the sympy library, wh
 
 <a name='constant'>**Constant.**</a> A variable whose value cannnot be changed.
 
-<a name='command line'>**A means of interacting with a computer via successive lines of text.**</a>
+<a name='command line'>**Command line.**</a> A means of interacting with a computer via successive lines of text.**</a>
+
+<a name='compile'>**Compile.**</a> Translate computer code written in one language to another, typically a high level one to machine executable code.
 
 <a name="decomposition">**Decomposition.**</a> The process of breaking down a problem into smaller, more simple tasks, for each an individual coded solution can be found.
 
@@ -334,6 +336,8 @@ Another completely new skill I had to learn was the use of the sympy library, wh
 <a name="object">**Object.**</a> A collection of data, and the operations that can be performed on this data.
 
 <a name="oop">**Object-orientated programming.**</a> A type of programming based on the concept of objects
+
+<a name="os">**Operating system.**</a> The program that manages all other applications and processes on a computer, including hardware.
 
 <a name="path">**Path.**</a> A string of characters used to uniquely identify a location in a file structure
 
