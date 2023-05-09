@@ -158,7 +158,7 @@ def velocity_components(acomps, amag, theta, bmag):
     return bx, by, bz
 ```
 
-I then realised that resolving the incoming velocity vector into a component parallel to an axis would help avoid use of complex vector methods. To do this, I calculated the angle between the incoming vector and x axis, and used this in conjunction with the angle between the incoming and outgoing vectors to find the angle between the outgoing vector and x axis.
+I then realised that resolving the incoming velocity vector into a component horizontal parallel to an axis would help avoid use of complex vector methods. To do this, I calculated the angle between the incoming vector and x axis, and used this in conjunction with the angle between the incoming and outgoing vectors to find the angle between the outgoing vector and x axis.
 
 ```python
 def velocitycomponents(acomps, theta, bmag): #worked but not with z
@@ -173,7 +173,7 @@ def velocitycomponents(acomps, theta, bmag): #worked but not with z
     return b_x, b_y, b_z
 ```
 
-However, this function did not always produce a vector with the correct orientation on the plot. Finally, I realised that as the incoming and outgoing vectors would always be in one identical plane, the components of the vectors in this identical plane must be in the same ratio as the magnitudes of the vectors. As I could calculate this ratio of magnitudes, knowing the scalar velocities of the incoming and outgoing particles, I could therefore apply the same scale factor to the components of that plane, as the adjacent component and magnitude of each vector would form two similar triangles. The other component could always be calculated using basic trigonometry.
+However, this function did not always produce a vector with the correct orientation on the plot. Finally, I realised that as the incoming and outgoing vectors would always be in one identical plane, the components of the vectors in this identical plane must be in the same ratio as the magnitudes of the vectors. As I could calculate this ratio of magnitudes, knowing the scalar velocities of the incoming and outgoing particles, I could therefore apply the same scale factor to the two parallel components in that plane, as the adjacent component and magnitude of each vector would form two similar triangles. The other, perpendicular component could be operated on independently, and could be calculated using basic trigonometry.
 
 ``` python
 def twodcomponents(amag, acomps, theta, bmag, type):
@@ -279,36 +279,11 @@ After this session I also recieved student feedback on user-percieved benefits a
 
 #### Ease of Use
 
-Feedback from a computer science teacher reccomended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable. Below is my code before and after this change
+Feedback from a computer science teacher reccomended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable.
 
-```python
-    tf = int(input('How long should the simulation run for (in seconds)? '))
-    startx = int(input('Enter an x coordinate in the path of the incoming  photon: '))
-    starty = int(input('Enter a y coordinate in the path of the incoming  photon: '))
-    startz = int(input('Enter a z coordinate in the path of the incoming  photon: '))
-    photon_pre_energy = float(input('Enter the initial energy of the photon in MeV: ' ))
-    photon_post_energy = float(input('Enter the energy of the photon after the collision in MeV: '))
-```
+The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the 'auto-py-to-exe' library to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is b
 
-```python
-    startx = 800
-    starty = 800
-    startz = 800
-    photon_pre_energy = 50
-    photon_post_energy = 100
-    while startx < -500 or startx > 500:  
-        startx = int(input('Enter an x coordinate in the path of the incoming  photon between -500 and 500: '))
-    while starty < -500 or starty > 500:  
-        starty = int(input('Enter a y coordinate in the path of the incoming  photon between -500 and 500: '))
-    while startz < -500 or startz > 500:  
-        startz = int(input('Enter a z coordinate in the path of the incoming  photon between -500 and 500: '))
-    while photon_pre_energy < 0.03 or photon_pre_energy > 30:
-        photon_pre_energy = float(input('Enter the initial energy of the photon in MeV between 0 and 30: ' ))
-    while photon_pre_energy < photon_post_energy:
-        photon_post_energy = float(input('Enter the energy of the photon after the collision in MeV, must be smaller than initial energy: '))
-```
-
-The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code.
+I also decided at this point to create a custom GUI where a user could input the necessary data for the ximulation to work, and choose whether to save the animation generated.
 
 
 ## IV. Skill Development
@@ -347,6 +322,8 @@ Another completely new skill I had to learn was the use of the sympy library, wh
 <a name="executable">**Executable.**</a> A file that contains an encoded sequence of instructions that the computer can execute immediately as the file is opened.
 
 <a name="function">**Function.**</a> A block of code that only runs once called.
+
+<<a name="gui">**Graphical User Interface.**</a> A form of user interface that uses graphical icons.
 
 <a name="lab-frame">**Lab frame.**</a> A frame of reference centered on where an experiment occurs in space.
 
