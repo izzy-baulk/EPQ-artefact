@@ -291,12 +291,11 @@ I also decided at this point to create a custom GUI using the ```tkinter``` libr
 
 ### Theoretical and Scientific
 
-The theoretical side of my artefact proved the most challenging to understand, as it forced me to learn physics ideas and equations that ordinarily wouldn’t be encountered until undergraduate study.  Furthermore, with the programming element of my project, it was necessary to not only be familiar with these difficult concepts, but understand them to a level high enough to recreate them within the constraints of a programming language.
-
+The theoretical side of my artefact proved the most challenging to understand, as it forced me to learn physics ideas and equations that ordinarily wouldn’t be encountered until undergraduate study.  Furthermore, with the programming element of my project, it was necessary to not only be familiar with these difficult concepts, but be proficient enough to recreate them within the constraints of a programming language. I had to ensure that I was considering any and all factors that might affect the accuracy of my simulation, for example, relativity concerns a different branch of physics to the one which my project was most explicitly linked to, but still needed consideration in my program. 
 
 ### Mathematical
 
-However, it was the mathematical element of the project which created the most setbacks, as I would be forced to wait to meet a further mechanics teacher to go through the required calculations if I was faced with a problem, and simply would not be able to progress with a feature of my simulation until I learned the necessary maths behind it. 
+However, it was the mathematical element of the project which created the most setbacks, as when working on a mathematical problem, progress with that part of the code would be completely halted until I found a solution. For example, during the several weeks I was trying to find a method for calculating vector components of a photon travelling in two dimensions, I could not continue writing the modelling code. To remain productive, I instead began work on my essay, and created the necessary subplots and database formatting functions. 
 
 ### Computational
 
@@ -304,7 +303,9 @@ I generally found the programming side of the project to be the easiest and most
 
 By far, the most challenging part of the programming element of the project was understanding and implementing object orientated programming techniques. I had limited experience with using classes, and had never used an ‘__init__’ function or the ‘self’  parameter prior to beginning this project. In fact, initially I tried to use an approach that would allow me to write the visualisation code without using a class, but found that this would not allow me to add the complexity to the associated data structures that I needed. Learning how to use  ‘__init__’ did not prove too challenging, and I found that reading the related Python documentation was sufficient for understanding its place in my code. However, it took me longer to understand the purpose of ‘self’, setting me back as I had to spend more time researching the technique in order to gain a deep enough understanding of it for use in my program. 
 
-Another completely new skill I had to learn was the use of the sympy library, which is used to create variables that can be used in algebraic functions. I first read the accompanying article to the code I analysed at the beginning of my project to understand its use, and then began drafting a solution for this part of the program without using this library. However, I then realised I would not be able to derive an equation for velocity from the equation for position any where near as efficiently as with the use of this library, so decided to use sympy after all. 
+Another completely new skill I had to learn was the use of the ```sympy``` library, which is used to create variables that can be used in algebraic functions. I first read the accompanying article to the code I analysed at the beginning of my project to understand its use, and then began drafting a solution for this part of the program without using this library. However, I then realised I would not be able to derive an equation for velocity from the equation for position any where near as efficiently as with the use of this library, so decided to use sympy after all. ```tkinter``` was another new library I had to learn to use in order to create a standalone GUI for entering data to use in the simulation. This meant that a user would not need to enter input via the command line as previous, which can appear difficult to use to someone with no programming experience. I decided on a simple form layout[^10], and used the library's [documentation](#docs) to further my knowledge.
+
+
 
 ## Glossary
 
@@ -317,6 +318,8 @@ Another completely new skill I had to learn was the use of the sympy library, wh
 <a name='command line'>**Command line.**</a> A means of interacting with a computer via successive lines of text.**</a>
 
 <a name='compile'>**Compile.**</a> Translate computer code written in one language to another, typically a high level one to machine executable code.
+
+<a name='docs'>**Documentation.**</a> The information that describes a piece of software to users, distributed by the developers.
 
 <a name="decomposition">**Decomposition.**</a> The process of breaking down a problem into smaller, more simple tasks, for each an individual coded solution can be found.
 
