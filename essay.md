@@ -4,7 +4,7 @@
 ### I. Overview
 ### II. Background
 ### III. Methodology
-### IV. Skill Development
+### IV. Review
 ### V. Glossary
 
 ## I. Overview
@@ -104,11 +104,6 @@ Over in ```modeller.py```, I first began writing a single function to entirely p
 
 When it came to modelling photon motion up to the point of collision, my first approach was to use algebra to solve vector equations to find the end position of the displacement vector given its components of velocity in each dimension. However, this proved mathematically challenging and impractical, as it seemed more logical to ask a user to input a point in the photon's path than its velocity components. So, I instead decided to write data showing the photon moving away from the origin towards a specified point as time progressed, and then in ```main.py```, reverse this dataframe so when animated, the particle would appear to move towards the origin rather than away, making sure to keep the order of the column representing time intact.
 
-```python
-    p1, timepre = pre_collision(time, pvelocity, startx, starty, startz) #create database to model incoming photon
-    p1 = p1.reindex(index=p1.index[::-1]) #reverse photon database so photon approaches origin instead
-    p1["t"] = p1["t"].values[::-1] #but dont reverse time column
-```
 The final version of the photon-modelling database would therefore have the same layout as the following:
 
 <img width="631" alt="Screenshot 2023-04-11 at 22 48 18" src="https://user-images.githubusercontent.com/79797035/231295506-ee92b11e-c880-4bdb-a3ba-a90f72ac2abd.png">
@@ -208,35 +203,14 @@ The only major difference between this function and the one calculating vector c
 
 ### Visualisation
 
-Before creating the animation, I needed to write code to format my databases as required before passing them to the simulation. First, I wrote a function that would ensure the databases modelling the electron's movement post collision and photon's movement post collision were the same length by comparing the length of the two time arrays.
+Before creating the animation, I needed to write code to format my databases as required before passing them to the simulation. First, I wrote a function that would ensure the databases modelling the electron's movement post collision and photon's movement post collision were the same length by comparing the length of the two time arrays *(see main lines 28-35)*, . Next, I realised that I needed to create 'filler' databases which could be merged with the databases containing position data to ensure all the final databases were the same length. This was importsnt for ensuring the correct postion and velocity data would be outputted at each second for each subplot. *(see main lines 48-56,76-91)* 
 
-```python
-def time_chop(df1, df2, df1t, df2t):
-    if len(df1t) > len(df2t):
-        time = df2t
-        df1.drop(df1[df1['t'] >= df2t[-1]].index, inplace = True)
-    else:
-        time = df1t
-        df2.drop(df2[df2['t'] >= df1t[-1]].index, inplace = True)
-    return df1, df2, time
-```
-
-Next, I realised that I needed to create 'filler' databases which could be merged with the databases containing position data. This would lead to passing three databases to my ```Animator``` class, so providing data for three trajectories and three subplots. I wrote the following function to create a 'filler' database for electron movement pre collision, incoming photon movement post collision, and outgoing photon movement pre collision.
-
-```python
-def filler_databases(time):
-    feature_list = ['t', 'rx', 'ry', 'rz', 'r_mag', 'vx', 'vy', 'vz', 'v_mag']
-    df = pd.DataFrame(0, index=np.arange(len(time)), columns=feature_list) #create empty database as long as specified time period
-    df['t'] = df.index
-    return df
-```
-To ensure the transition between databases would be seamless once merged, which was important for the ```t``` column as this would be the only variable in the filler database that changed, I increased the time values of the second database by the last value of the first.
-
-Finally, an instance of the ```Animator``` class could be created, and the three databases could be passed to it. Over in ```visualiser.py```, the last function to be written was the ```visualise()``` function, which would plot the information about each particle at each second on the graphs, and serve as the ```func``` parameter for ```FuncAnimation``` as mentioned earlier. The following function updates the trajectory and subplots for each particle at each second by accessing the corresponding elements from the databases created by the modeller. *(see visualiser.py lines 146-170)*
+Finally, an instance of the ```Animator``` class could be created, and the three databases could be passed to it. Over in ```visualiser.py```, the last function to be written was the ```visualise()``` function, which would plot the information about each particle at each second on the graphs, and serve as the ```func``` parameter for ```FuncAnimation``` as mentioned earlier. The function updates the trajectory and subplots for each particle at each second by accessing the corresponding elements from the databases created by the modeller. *(see visualiser.py lines 146-170)*
 
 ### Testing and Feedback
 #### Accuracy
-At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote the following function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph. In ```main.py```, I wrote a function using vector dot product to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```.
+At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote a function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph, calcuated using Pythogoras[^9].
+In ```main.py```, I wrote a function using vector dot product[^11] to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```.
 
 #### Usefulness
 
@@ -254,32 +228,16 @@ After this session I also recieved student feedback on user-percieved benefits a
 
 Feedback from a computer science teacher reccomended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable.
 
-The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the ```auto-py-to-exe``` library[^11] to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is built on, PyInstaller use the [command line](#commandline) to achieve the same aim. As I had more than 10 dependencies to include within the final executable file, the prompts I would need to write using the command line would be very long, and so prone to errors. I did encounter a significant challenge here in that because I was writing and [compiling](#compile) my code on a computer with a UNIX based [operating system](#os), I could only compile a file that could be executed on other UNIX systems, and so not Windows machines. The only solution to this issue was to transfer my [source code](#source-code) to a Windows machine at school and compile an executable file from there. This eventually meant I could hand in two versions of my program, one for each major operating system, meaning the vast majority of users would be able to use my program. 
+The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the ```auto-py-to-exe``` library[^12] to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is built on, PyInstaller use the [command line](#commandline) to achieve the same aim. As I had more than 10 dependencies to include within the final executable file, the prompts I would need to write using the command line would be very long, and so prone to errors. I did encounter a significant challenge here in that because I was writing and [compiling](#compile) my code on a computer with a UNIX based [operating system](#os), I could only compile a file that could be executed on other UNIX systems, and so not Windows machines. The only solution to this issue was to transfer my [source code](#source-code) to a Windows machine at school and compile an executable file from there. This eventually meant I could hand in two versions of my program, one for each major operating system, meaning the vast majority of users would be able to use my program. 
 
-I also decided at this point to create a custom GUI using the ```tkinter``` library where a user could input the necessary data for the simulation to work, and choose whether to save the animation generated. This meant that a user would not need to enter input via the command line as previous, which can appear difficult to use to someone with no programming experience. I also moved the validation code for each input to within the functions that handles creating the form and processing the data from it. As ```tkinter``` was a library I had no previous experience in using, the learning curve was steep, and so I decided on a simple form layout[^12].
+I also decided at this point to create a custom GUI using the ```tkinter``` library where a user could input the necessary data for the simulation to work, and choose whether to save the animation generated *(see main.py lines 109-174)*. This meant that a user would not need to enter input via the command line as previous, which can be difficult to use to someone with no programming experience. As ```tkinter``` was a library I had no previous experience in using, the learning curve was steep, and so I decided on a simple form layout after researching other code written to create and collect data using forms[^13].
 
+## Review
 
-## IV. Skill Development
-
-### Theoretical and Scientific
-
-The theoretical side of my artefact proved the most challenging to understand, as it forced me to learn physics ideas and equations that ordinarily wouldn’t be encountered until undergraduate study.  Furthermore, with the programming element of my project, it was necessary to not only be familiar with these difficult concepts, but be proficient enough to recreate them within the constraints of a programming language. I had to ensure that I was considering any and all factors that might affect the accuracy of my simulation, for example, relativity concerns a different branch of physics to the one which my project was most explicitly linked to, but still needed consideration in my program. 
-
-### Mathematical
-
-However, it was the mathematical element of the project which created the most setbacks, as when working on a mathematical problem, progress with that part of the code would be completely halted until I found a solution. For example, during the several weeks I was trying to find a method for calculating vector components of a photon travelling in two dimensions, I could not continue writing the modelling code. To remain productive, I instead began work on my essay, and created the necessary subplots and database formatting functions. 
-
-### Computational
-
-I generally found the programming side of the project to be the easiest and most rewarding. As working in any programming language encourages creativity and original thinking when devising solutions to problems, I found it enjoyable to work through any challenges I faced, and never encountered any significant setbacks as the modular nature of my program allowed me to simply switch to working on a different part of my code while I tried to resolve a problem created by another.
-
-By far, the most challenging part of the programming element of the project was understanding and implementing object orientated programming techniques. I had limited experience with using classes, and had never used an ```__init__``` function or the ```self```  parameter prior to beginning this project. In fact, initially I tried to use an approach that would allow me to write the visualisation code without using a class, but found that this would not allow me to add the complexity to the associated data structures that I needed. Learning how to use  ```__init__``` did not prove too challenging, and I found that reading the related Python documentation was sufficient for understanding its place in my code. However, it took me longer to understand the purpose of ‘self’, setting me back as I had to spend more time researching the technique in order to gain a deep enough understanding of it for use in my program. 
-
-Another completely new skill I had to learn was the use of the ```sympy``` library, which is used to create variables that can be used in algebraic functions. I first read the accompanying article to the code I analysed at the beginning of my project to understand its use, and then began drafting a solution for this part of the program without using this library. However, I then realised I would not be able to derive an equation for velocity from the equation for position any where near as efficiently as with the use of this library, so decided to use sympy after all. ```tkinter``` was another new library I had to learn to use in order to create a standalone GUI for entering data to use in the simulation. This meant that a user would not need to enter input via the command line as previous, which can appear difficult to use to someone with no programming experience. I decided on a simple form layout[^12], and used the library's [documentation](#docs) to further my knowledge.
+Overall, my program provides an accurate model and visual simulation of the Compton scatttering effect, with the ability to model particle motion in three dimensions to an accurate scale. When comparing scatttering angles calculated by my program with those generated through other purely mathematical methods, errors have never exceeded 2 degrees. It has also proved a useful tool in teaching A-Level students about the Compton scattering effect, as well as the related topics of relativity, angular momentum, and the wave nature of light. There is however scope to improve the program, with efficiency being possible improved through using a different animation function, or restructuring the order of code execution as well as using multi-processing to allow tasks to execute simultaneously. Support could also be added to allow input data to come in the form of wavelengths, and the functionality of the program could be used to create models for the photoelectric effect, or pair-production.
 
 
-
-## Glossary
+## V. Glossary
 
 <a name="abstraction">**Abstraction.**</a> The separation of unnecessary details from the information and tasks required to solve a problem.
 
@@ -344,11 +302,13 @@ Another completely new skill I had to learn was the use of the ```sympy``` libra
 
 [^9]: L Bostock and S Chandler (1994). Core maths for A-level. Cheltenham: Thornes, pp.68–71, 450–463.
 
-‌[^10]: Department of Mathematics, Oregon State University (1996). Dot Products and Projections. [online] sites.science.oregonstate.edu. Available at: https://sites.science.oregonstate.edu/math/home/programs/undergrad/CalculusQuestStudyGuides/vcalc/dotprod/dotprod.html [Accessed 9 May 2023].
+‌[^10]: Dept. of Mathematics, Oregon State University (1996). Dot Products and Projections. [online] sites.science.oregonstate.edu. Available at: https://sites.science.oregonstate.edu/math/home/programs/undergrad/CalculusQuestStudyGuides/vcalc/dotprod/dotprod.html [Accessed 9 May 2023].
 
-[^11]: Andrade, F. (2021). How to Easily Convert a Python Script to an Executable File (.exe). [online] Medium. Available at: https://towardsdatascience.com/how-to-easily-convert-a-python-script-to-an-executable-file-exe-4966e253c7e9 [Accessed 18 May 2023].
+[^11]: CGP Books (2017). AS & A-Level Further Maths for Edexcel: Complete Revision and Practice. pp.56–57.
 
-‌[^12]: Amos, D. (2022). Python GUI Programming With Tkinter – Real Python. [online] realpython.com. Available at: https://realpython.com/python-gui-tkinter/ [Accessed 9 May 2023].
+[^12]: Andrade, F. (2021). How to Easily Convert a Python Script to an Executable File (.exe). [online] Medium. Available at: https://towardsdatascience.com/how-to-easily-convert-a-python-script-to-an-executable-file-exe-4966e253c7e9 [Accessed 18 May 2023].
+
+‌[^13]: Amos, D. (2022). Python GUI Programming With Tkinter – Real Python. [online] realpython.com. Available at: https://realpython.com/python-gui-tkinter/ [Accessed 9 May 2023].
 
 ‌
 ‌
