@@ -5,7 +5,8 @@
 ### II. Background
 ### III. Methodology
 ### IV. Review
-### V. Glossary
+### V. Appendix
+### VI. Glossary
 
 ## I. Overview
 
@@ -210,7 +211,7 @@ Finally, an instance of the ```Animator``` class could be created, and the three
 ### Testing and Feedback
 #### Accuracy
 At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote a function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph, calcuated using Pythogoras[^9].
-In ```main.py```, I wrote a function using vector dot product[^11] to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```.
+In ```main.py```, I wrote a function using vector dot product[^11] to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```. I then used my program to answer a number of calculation questions on the compton scatttering effect *(see Appendix for example test data and results)* and compared the given answers with those calculated by the code. 
 
 #### Usefulness
 
@@ -232,12 +233,35 @@ The only other reccomendation I recieved from this teacher was improving the eas
 
 I also decided at this point to create a custom GUI using the ```tkinter``` library where a user could input the necessary data for the simulation to work, and choose whether to save the animation generated *(see main.py lines 109-174)*. This meant that a user would not need to enter input via the command line as previous, which can be difficult to use to someone with no programming experience. As ```tkinter``` was a library I had no previous experience in using, the learning curve was steep, and so I decided on a simple form layout after researching other code written to create and collect data using forms[^13].
 
-## Review
+## IV. Review
 
-Overall, my program provides an accurate model and visual simulation of the Compton scatttering effect, with the ability to model particle motion in three dimensions to an accurate scale. When comparing scatttering angles calculated by my program with those generated through other purely mathematical methods, errors have never exceeded 2 degrees. It has also proved a useful tool in teaching A-Level students about the Compton scattering effect, as well as the related topics of relativity, angular momentum, and the wave nature of light. There is however scope to improve the program, with efficiency being possible improved through using a different animation function, or restructuring the order of code execution as well as using multi-processing to allow tasks to execute simultaneously. Support could also be added to allow input data to come in the form of wavelengths, and the functionality of the program could be used to create models for the photoelectric effect, or pair-production.
+Overall, my program provides an accurate method to model and visualise the Compton scatttering effect, with the ability to model particle motion in three dimensions. It has also proved a useful tool in teaching A-Level students about the Compton scattering effect, as well as the related topics of relativity, angular momentum, and the wave nature of light. There is however scope to improve the program, with efficiency being possible improved through using a different animation function, or restructuring the order of code execution as well as using multi-processing to allow tasks to execute simultaneously. Support could also be added to allow input data to come in the form of wavelengths, and the functionality of the program could be used to create models for the photoelectric effect, or pair-production.
 
 
-## V. Glossary
+## V. Appendix
+
+1. In a Compton scattering event, the scattered photon has an energy of 120 keV and the recoiling electron has an energy of 40 keV. Find (a) the angle θ at which the photon is scattered, and (b) the recoil angle φ of the electron.[^14]
+
+a) given answer = 92.8 degrees
+
+a) program answer = (taking initial energy of photon as 160 keV) 93 degrees
+
+
+b) given answer = 35.6 degrees
+
+b) program answer = (taking initial energy of photon as 160 keV) 35 degrees
+
+2. An 800 keV photon collides with an electron at rest. After the collision, the photon is detected with 650 keV of energy. Find (a) the angle of the scattered electron and (b) the angle of the scattered photon.[^1]
+
+a) given answer = 54.4 degrees
+
+a) program answer = 54 degrees
+
+b) given answer = 31.6 degrees
+
+b) program answer = 31 degrees
+
+## VI. Glossary
 
 <a name="abstraction">**Abstraction.**</a> The separation of unnecessary details from the information and tasks required to solve a problem.
 
@@ -302,15 +326,16 @@ Overall, my program provides an accurate model and visual simulation of the Comp
 
 [^9]: L Bostock and S Chandler (1994). Core maths for A-level. Cheltenham: Thornes, pp.68–71, 450–463.
 
-‌[^10]: Dept. of Mathematics, Oregon State University (1996). Dot Products and Projections. [online] sites.science.oregonstate.edu. Available at: https://sites.science.oregonstate.edu/math/home/programs/undergrad/CalculusQuestStudyGuides/vcalc/dotprod/dotprod.html [Accessed 9 May 2023].
+[^10]: Dept. of Mathematics, Oregon State University (1996). Dot Products and Projections. [online] sites.science.oregonstate.edu. Available at: https://sites.science.oregonstate.edu/math/home/programs/undergrad/CalculusQuestStudyGuides/vcalc/dotprod/dotprod.html [Accessed 9 May 2023].
 
 [^11]: CGP Books (2017). AS & A-Level Further Maths for Edexcel: Complete Revision and Practice. pp.56–57.
 
 [^12]: Andrade, F. (2021). How to Easily Convert a Python Script to an Executable File (.exe). [online] Medium. Available at: https://towardsdatascience.com/how-to-easily-convert-a-python-script-to-an-executable-file-exe-4966e253c7e9 [Accessed 18 May 2023].
 
-‌[^13]: Amos, D. (2022). Python GUI Programming With Tkinter – Real Python. [online] realpython.com. Available at: https://realpython.com/python-gui-tkinter/ [Accessed 9 May 2023].
+[^13]: Amos, D. (2022). Python GUI Programming With Tkinter – Real Python. [online] realpython.com. Available at: https://realpython.com/python-gui-tkinter/ [Accessed 9 May 2023].
 
-‌
+[^14]: Hanlan, J. (n.d.). Physics 250 Practice Exam II. [online] Available at: https://www.physics.upenn.edu/~williams/phys250/pracexams/prac250b.pdf [Accessed 30 May 2023].
+
 ‌
 
 ‌
