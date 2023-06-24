@@ -2,11 +2,19 @@
 import numpy as np
 import pandas as pd
 import math
+import matplotlib
 import matplotlib.pyplot as plt
 import numpy as np
+import os
+from tkinter import *
+from tkinter import ttk
 #import modules from visualiser and modeller
 from modeller import pre_collision, post_collision_electron, post_collision_photon
 from visualiser import Animator
+from matplotlib import animation
+
+#initialisation GUI
+matplotlib.use('TkAgg')
 
 #calculate vector magnitude from components
 def vector_magnitude(comps):
@@ -47,25 +55,11 @@ def format_databases(df, dftimefrom):
     df['t'] = df['t'].apply(lambda x: x + dftimefrom.iloc[-1].at['t']) #add the last time value from the previous database to enure no jumps in 't' column
     return df
 
-def main():
-    #startx = 200 #coordinates photon passes through
-    #starty = 203 #coordinates photon passes through
-    #startz = 69 #coordinates photon passes through
-    #photon_pre_energy = 0.8 #measured in MeV
-    #photon_post_energy = 0.75 #measured in MeV
-
-    tf = int(input('How long should the simulation run for (in seconds)? '))
-    startx = int(input('Enter an x coordinate in the path of the incoming  photon: '))
-    starty = int(input('Enter a y coordinate in the path of the incoming  photon: '))
-    startz = int(input('Enter a z coordinate in the path of the incoming  photon: '))
-    photon_pre_energy = float(input('Enter the initial energy of the photon in MeV: ' ))
-    photon_post_energy = float(input('Enter the energy of the photon after the collision in MeV: '))
-
-    tf = 300
+def main(startx, starty, startz, photon_pre_energy, photon_post_energy, save, f):
+    tf = 200
     pvelocity = 3 #photon velocity (measured in 10^8m/s)
     rest_energy_e = 0.512 #measured in MeV
     t0 = 0 # initial time
-    #tf = 300 # end time
     dt = 1 # time step
     time = np.arange(t0, tf, dt, dtype='float') # time array
 
@@ -76,6 +70,7 @@ def main():
     #create databases to model photon and electron post collision
     pcomps = [p1.loc[0].at["vx"], p1.loc[0].at["vy"], p1.loc[0].at["vz"]] #vector components of photon velocity
     p2, ptime2, p2comps, photon_angle = post_collision_photon(time, pvelocity, photon_pre_energy, photon_post_energy, pcomps, rest_energy_e)
+    print(p2)
     e2, etime2, e2comps, electron_angle = post_collision_electron(time, pvelocity, photon_pre_energy, photon_post_energy, pcomps, rest_energy_e)
 
     #find database with shorter runtime and cut other one to same size
@@ -105,6 +100,76 @@ def main():
     #create and run animation, show plots
     animator = Animator(simulation_results1=electron, simulation_results2=incomingphoton, simulation_results3=outgoingphoton)
     anim = animator.animate(timearray, electron_angle, photon_angle)
-    plt.show()
+    if save == 'Y':
+        writervideo = animation.FFMpegWriter(fps=60) 
+        anim.save(f, writer=writervideo)
+    else:
+        plt.show()
 
-main()
+
+def makeform(root, fields):
+    entries = {}
+    error = Label(root, text="", fg='red', font=('Helvetica 13'))
+    error.pack()
+    for field in fields:
+        row = Frame(root)
+        if field == 'x coordinate' or field == 'y coordinate' or field == 'z coordinate':
+            validation = ' (integer between -500 and 500)'
+        elif field == 'initial energy of photon':
+            validation = ' (between 0-30 MeV)'
+        elif field ==  'final energy of photon':
+            validation = ' (must be smaller than initial energy, but above 0)'
+        elif field == 'save file? ':
+            validation = ' (Y/N)'
+        elif field == 'filepath':
+            validation = ' (enter valid path to folder, or enter "D" to use default path "./")'
+        else:
+            validation = ''    
+        lab = Label(row, text=field+ validation + ": ", anchor='w')
+        ent = Entry(row)
+        row.pack(side = TOP, fill = X, padx = 5 , pady = 5)
+        lab.pack(side = LEFT)
+        ent.pack(side = RIGHT, expand = YES, fill = X)
+        entries[field] = ent
+    return entries, error
+
+
+def validate(entries, root, error):
+    startx = int(entries['x coordinate'].get())
+    starty = int(entries['y coordinate'].get())
+    startz = int(entries['z coordinate'].get())
+    photon_pre_energy = float(entries['initial energy of photon'].get())
+    photon_post_energy= float(entries['final energy of photon'].get())
+    save = entries['save file? '].get()
+    filepath =  entries['filepath'].get()
+    filename = entries['filename'].get()
+    path = ''
+    if save == 'Y':
+            if filepath == 'D':
+                path = './' + filename + '.mp4'
+            else:
+                path = filepath + '/' + filename + '.mp4'
+    if startx < -500 or startx > 500 or starty < -500 or starty > 500 or startz < -500 or startz > 500 or photon_pre_energy < 0 or photon_pre_energy > 30 or photon_post_energy < 0 or photon_post_energy > photon_pre_energy:
+        error['text'] = 'Please enter valid data'
+    else:      
+        if (os.path.exists(filepath) == False) and (filepath != 'D') and (save != 'N'):
+            error['text'] = 'Please enter valid data/file path'  
+        else:
+            root.quit()
+            main(startx, starty, startz, photon_pre_energy, photon_post_energy, save, path)   
+
+def run():
+    fields = ('x coordinate', 'y coordinate', 'z coordinate', 'initial energy of photon', 'final energy of photon', 'save file? ', 'filepath', 'filename')
+    root = Tk()
+    root.geometry('1000x600')
+    root.title('Simulation Setup')
+    ents, error = makeform(root, fields)
+    b1 = Button(root, text = 'submit',
+        command=(lambda e = ents: validate(e, root, error)))
+    b1.pack(side = LEFT, padx = 5, pady = 5)
+    b3 = Button(root, text = 'Quit', command = root.quit)
+    b3.pack(side = LEFT, padx = 5, pady = 5)
+    root.mainloop() 
+
+if __name__ == '__main__':
+    run()
