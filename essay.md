@@ -10,13 +10,13 @@
 
 ## I. Overview
 
-I chose to write a Python program to give me an opportunity to develop my skills in object-orientated program, while showcasing my existing procedural programming abilities. As I hope to study physics or engineering at university, I decided that modelling a particle physics phenomenon would deepen my knowledge in this field, and provide an opportunity for me to draw links between studies in this area to future studies in science and technology. I made the choice to visualise this model in a 3D plot to further my understanding of the importance of graphical interfaces in research presentation. 
+I chose to write a Python program to give me an opportunity to develop my skills in object-orientated programming, whilst showcasing my existing procedural programming abilities. As I hope to study physics or engineering at university, I decided that modelling a particle physics phenomenon would deepen my knowledge in this field, and provide an opportunity for me to draw links between studies in this area to future studies in science and technology. I made the choice to visualise this model in a 3D plot to further my understanding of the importance of graphical interfaces in research presentation. 
 
 ## II. Background
 
 ### Compton Scattering
 
-During my secondary research of different kinds of particle collisions, I discovered the Compton scattering effect, which describes the interaction that takes place between a photon of energy between 30keV-30MeV, and a free, stationary electron, where eV is energy measured in [electronvolts](#electronvolt). When these particles collide, the photon imparts some momentum to the electron, causing a change in direction and wavelength of the photon, and a change in the velocity of the electron. The illustration below shows this process, with *λ* representing the incoming photon, *λ’* representing the photon after the collision, *θ* representing photon scattering angle, *Φ* representing electron scattering angle, and *e-* representing the scattered electron[^1]
+During my secondary research into different kinds of particle collisions, I discovered the Compton scattering effect, which describes the interaction that takes place between a photon of energy between 30keV-30MeV, and a free, stationary electron, where eV is energy measured in [electronvolts](#electronvolt). When these particles collide, the photon imparts some momentum to the electron, causing a change in direction and wavelength of the photon, and a change in the velocity of the electron. The illustration below shows this process, with *λ* representing the incoming photon, *λ’* representing the photon after the collision, *θ* representing photon scattering angle, *Φ* representing electron scattering angle, and *e-* representing the scattered electron.[^1]
 
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788567-631402ac-8141-4fac-afb9-6591555b3d1c.png"></img>
 ###### Fig 1 - illustration of a collision involving compton scattering [^1]
@@ -36,13 +36,14 @@ Using E<sub>o</sub> = m<sub>e</sub>c<sup>2</sup>, where E<sub>o</sub> represents
 <img width="278" alt="image" src="https://user-images.githubusercontent.com/79797035/230788799-60cd5759-049a-4616-96c5-0ce35c455c70.png"></img>
 ###### Eqn 3 -  equation for compton effect using electron rest energy[^2]
 
+This is the equation I decided to implement in my code.
 ### Python and Additional Libraries
 
 Python is a high-level, general purpose programming language with support for countless graphical, scientific, and mathematical additional [libraries](#library), making it the ideal language for this simulation. I chose ```matplotlib``` to be my graphics library, and ```numpy``` and ```pandas``` to handle database creation and manipulation, as these are libraries built with the intention to be used in conjunction with one another, and libraries that I had previously used in other projects. Python has support for both [object-orientated programming (OOP)](#oop) and [procedural programming (PP)](#pp), which was important as both types of programming had to be utilised in my project, with OOP being vital to creating the animation behind the visualisation part of the program, and PP forming the basis of the modelling side of the code.
 
 ### Relativity and Scale
 
-When testing my program, I discovered The Compton scattering effect often results in electrons moving at a large fraction of the speed of light, however my program was calculating velocities way above the speed of light. This meant that I had to conduct extra secondary research in order to find a method that would solve this problem. This led me to disocver that if using the standard equation for velocity from kinetic energy, 
+When testing my program, I discovered the Compton scattering effect often results in electrons moving at a large fraction of the speed of light, however my program was calculating velocities way above the speed of light. This meant that I had to conduct extra secondary research in order to find a method that would solve this problem. This led me to disocver that if using the standard equation for velocity from kinetic energy: 
 
 <img width="143" alt="Screenshot 2023-04-12 at 11 17 29" src="https://user-images.githubusercontent.com/79797035/231428681-1e629c7d-e989-4fc9-8b1a-d38866267347.png">
 
@@ -204,14 +205,14 @@ The only major difference between this function and the one calculating vector c
 
 ### Visualisation
 
-Before creating the animation, I needed to write code to format my databases as required before passing them to the simulation. First, I wrote a function that would ensure the databases modelling the electron's movement post collision and photon's movement post collision were the same length by comparing the length of the two time arrays *(see main lines 28-35)*, . Next, I realised that I needed to create 'filler' databases which could be merged with the databases containing position data to ensure all the final databases were the same length. This was importsnt for ensuring the correct postion and velocity data would be outputted at each second for each subplot. *(see main lines 48-56,76-91)* 
+Before creating the animation, I needed to write code to format my databases as required before passing them to the simulation. First, I wrote a function that would ensure the databases modelling the electron's movement post collision and photon's movement post collision were the same length by comparing the length of the two time arrays *(see main lines 28-35)*, . Next, I realised that I needed to create 'filler' databases which could be merged with the databases containing position data to ensure all the final databases were the same length. This was important for ensuring the correct postion and velocity data would be outputted at each second for each subplot. *(see main lines 48-56,76-91)* 
 
 Finally, an instance of the ```Animator``` class could be created, and the three databases could be passed to it. Over in ```visualiser.py```, the last function to be written was the ```visualise()``` function, which would plot the information about each particle at each second on the graphs, and serve as the ```func``` parameter for ```FuncAnimation``` as mentioned earlier. The function updates the trajectory and subplots for each particle at each second by accessing the corresponding elements from the databases created by the modeller. *(see visualiser.py lines 146-170)*
 
 ### Testing and Feedback
 #### Accuracy
 At this point my code was fully functional, but I needed a way to check the accuracy of both my modelling and visualisation functions. In ```modeller.py```, I wrote a function to compare the values of particle velocity computed using **Eqn 4** with the magnitude of the vectors outputted on the graph, calcuated using Pythogoras[^9].
-In ```main.py```, I wrote a function using vector dot product[^11] to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```. I then used my program to answer a number of calculation questions on the compton scatttering effect *(see Appendix for example test data and results)* and compared the given answers with those calculated by the code. 
+In ```main.py```, I wrote a function using vector dot product[^11] to calculate the actual angle between the incoming photon and each outgoing particle, and then compare these angles to those calculated in ```electron_recoil_angle()``` and ```photon_recoil_angle()```. I then used my program to answer a number of calculation questions on the Compton scatttering effect *(see Appendix for example test data and results)* and compared the given answers with those calculated by the code. Throughout testing, I found the greatest error in calculated scattering angles to be 2 degrees, which I took as an acceptable error margin considering the time available to me to refine my program.
 
 #### Usefulness
 
@@ -227,7 +228,7 @@ After this session I also recieved student feedback on user-percieved benefits a
 
 #### Ease of Use
 
-Feedback from a computer science teacher reccomended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable.
+Feedback from a computer science teacher recommended that I added a validation process while getting user inputs, so I chose to use a series of while loops to ensure inputted data was within the valid range for each variable.
 
 The only other reccomendation I recieved from this teacher was improving the ease of distribution of my code. I so decided to create an [executable file](#executable) that would contain all the [dependencies](#dependency) for my project, as well as the four program files. This meant that whenever I shared my code with others, they would not need to spend time downloading all the necessary libraries onto their machine. The other change I made was ensuring all the [paths](#path) I used within my code were relative, so that a user would not need the same file structure as me to run the code. I chose to use the ```auto-py-to-exe``` library[^12] to create this file, as it provides users with a [Graphical User Interface](#gui) (GUI) while creating the file, whereas the library it is built on, PyInstaller use the [command line](#commandline) to achieve the same aim. As I had more than 10 dependencies to include within the final executable file, the prompts I would need to write using the command line would be very long, and so prone to errors. I did encounter a significant challenge here in that because I was writing and [compiling](#compile) my code on a computer with a UNIX based [operating system](#os), I could only compile a file that could be executed on other UNIX systems, and so not Windows machines. The only solution to this issue was to transfer my [source code](#source-code) to a Windows machine at school and compile an executable file from there. This eventually meant I could hand in two versions of my program, one for each major operating system, meaning the vast majority of users would be able to use my program. 
 
