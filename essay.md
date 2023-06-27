@@ -238,7 +238,6 @@ I also decided at this point to create a custom GUI using the ```tkinter``` libr
 
 Overall, my program provides an accurate method to model and visualise the Compton scatttering effect, with the ability to model particle motion in three dimensions. It has also proved a useful tool in teaching A-Level students about the Compton scattering effect, as well as the related topics of relativity, angular momentum, and the wave nature of light. There is however scope to improve the program, with efficiency being possible improved through using a different animation function, or restructuring the order of code execution as well as using multi-processing to allow tasks to execute simultaneously. Support could also be added to allow input data to come in the form of wavelengths, and the functionality of the program could be used to create models for the photoelectric effect, or pair-production.
 
-
 ## V. Appendix
 
 1. In a Compton scattering event, the scattered photon has an energy of 120 keV and the recoiling electron has an energy of 40 keV. Find (a) the angle θ at which the photon is scattered, and (b) the recoil angle φ of the electron.[^14]
@@ -337,7 +336,6 @@ b) program answer = 31 degrees
 
 [^14]: Hanlan, J. (n.d.). Physics 250 Practice Exam II. [online] Available at: https://www.physics.upenn.edu/~williams/phys250/pracexams/prac250b.pdf [Accessed 30 May 2023].
 
-‌
-
+‌WORD COUNT EXCLUDING APPENDIX, GLOSSARY, CODE SNIPPETS: 3,707
 ‌
 ‌
